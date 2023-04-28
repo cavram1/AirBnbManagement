@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: database_airbnbmanagement
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: air
+      MYSQL_DATABASE: bnb
+      MYSQL_USER: airbnb
+      MYSQL_PASSWORD: airair
+    ports:
+      - '4306:3306'
+    volumes:
+      - ./mysql:/var/lib/mysql
