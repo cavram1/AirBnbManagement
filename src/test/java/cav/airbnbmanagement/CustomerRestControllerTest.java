@@ -1,4 +1,4 @@
-package cav.airbnbmanagement.controller;
+package cav.airbnbmanagement;
 
 import cav.airbnbmanagement.AirBnbManagementApplication;
 import cav.airbnbmanagement.model.Customer;
