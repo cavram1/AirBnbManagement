@@ -1,4 +1,4 @@
-package cav.airbnbmanagement;
+package cav.airbnbmanagement.test;
 
 import cav.airbnbmanagement.controller.AirBnbRestController;
 import cav.airbnbmanagement.controller.LandlordbRestController;
