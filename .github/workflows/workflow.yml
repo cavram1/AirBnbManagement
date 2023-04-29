@@ -1,4 +1,4 @@
-name: Java
+name: Run automated tests on push
 
 on:
   push:
@@ -10,20 +10,20 @@ jobs:
 
     services:
       mysql:
-        image: mysql:8
+        image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: githubtest
+          MYSQL_ROOT_PASSWORD: test
           MYSQL_DATABASE: githubtest
           MYSQL_USER: githubtest
           MYSQL_PASSWORD: githubtest
         ports:
-          - '4336:3306'
+          - '4306:3306'
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up JDK 1.11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
