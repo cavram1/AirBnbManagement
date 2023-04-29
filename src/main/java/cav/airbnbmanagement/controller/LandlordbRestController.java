@@ -56,11 +56,16 @@ public class LandlordbRestController {
                     content = @Content(mediaType = "application/json"), responseCode = "200"
             )
     })
-    @PostMapping("landlord/login")
-    private ResponseEntity<Landlord> login(@RequestBody Landlord landlord) {
+    @PostMapping("/landlord/login")
+    private ResponseEntity<String> login(@RequestBody Landlord landlord) {
+
+        Landlord l = null;
+        /**
+         * Landlord l = landlordRepository.findByEmail(landlord.getEmail())
+         .orElseThrow(() -> new Exception("no landlord found with email :: " + landlord.getEmail()));*/
+
         try {
-            Landlord l = landlordRepository.findByEmail(landlord.getEmail())
-                    .orElseThrow(() -> new Exception("no landlord found with email :: " + landlord.getEmail()));
+            l = landlordRepository.findFirstByEmailAndPassword(landlord.getEmail(), landlord.getPassword());
 
             if (l != null) {
                 String hash = HashGenerator.generateHash(l);
@@ -69,7 +74,7 @@ public class LandlordbRestController {
                 landlordRepository.save(l);
                 landlordRepository.flush();
 
-                return new ResponseEntity<>(l, HttpStatus.OK);
+                return new ResponseEntity<>(l.getToken(), HttpStatus.OK);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,5 +82,7 @@ public class LandlordbRestController {
 
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
+
+
 
 }

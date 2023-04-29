@@ -1,5 +1,6 @@
 package cav.airbnbmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +32,7 @@ public class Customer {
     private String vorwahl;
 
     @OneToMany(mappedBy = "customer", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Booking> bookings;
 
     @Override

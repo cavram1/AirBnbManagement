@@ -187,7 +187,7 @@ Erstellen sie einen Docker Container für diese Anwendung
 * Im Erfolgsfall wird der Statuscode `200` zurückgegeben sowie die Daten im Requestbody zurückgegeben: `{"id": 1, "name": "Apple Probook M2", "price": 13.5, "airBnb": 1}`
 * Bei Misserfolg wird der Statuscode `400` / `401` zurückgebeben.
 
-### AirBnbe für Marke laden
+### AirBnb für Location laden
 * `GET` - Request
 * Endpunkt: `/airBnb/load/{airBnbId}`
 * Erforderlicher Token wird als Bearer - Token im Autorizationheader mitgeschickt.

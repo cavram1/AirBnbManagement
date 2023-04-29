@@ -1,5 +1,6 @@
 package cav.airbnbmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,6 +34,7 @@ public class AirBnb {
     private String pricePerNight;
 
     @OneToMany(mappedBy = "airbnb", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Booking> booking;
 
     @Override
