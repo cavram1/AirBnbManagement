@@ -1,5 +1,6 @@
 package cav.airbnbmanagement.controller;
 
+import cav.airbnbmanagement.AirBnbManagementApplication;
 import cav.airbnbmanagement.model.Customer;
 import cav.airbnbmanagement.repositories.CustomerRepository;
 import org.junit.jupiter.api.*;
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(classes = {CustomerRestController.class})
+@SpringBootTest(classes = {AirBnbManagementApplication.class})
 public class CustomerRestControllerTest {
 
     @Autowired
