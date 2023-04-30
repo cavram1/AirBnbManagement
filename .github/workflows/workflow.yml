@@ -9,6 +9,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      issues: write
+      pull-requests: write
     runs-on: ubuntu-latest
 
     services:
