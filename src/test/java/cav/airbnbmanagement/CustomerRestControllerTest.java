@@ -25,6 +25,7 @@ public class CustomerRestControllerTest {
         c = new Customer();
         c.setEmail("customer@email.com");
 
+
         Assertions.assertDoesNotThrow(() -> {
             customerRepository.save(c);
         });
