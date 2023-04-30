@@ -1,8 +1,10 @@
 package cav.airbnbmanagement.controller;
 
 import cav.airbnbmanagement.model.AirBnb;
+import cav.airbnbmanagement.model.Booking;
 import cav.airbnbmanagement.model.Landlord;
 import cav.airbnbmanagement.repositories.AirBnbRepository;
+import cav.airbnbmanagement.repositories.BookingRepository;
 import cav.airbnbmanagement.repositories.LandlordRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -26,6 +29,9 @@ public class AirBnbRestController {
 
     @Autowired
     private LandlordRepository landlordRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
     @Operation(description = "creating a new airbnb")
     @ApiResponses(
@@ -226,6 +232,79 @@ public class AirBnbRestController {
             e.printStackTrace();
         }
 
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @Operation(description = "making a booking")
+    @ApiResponses(value = {
+            @ApiResponse(description = "successfully made booking", responseCode = "200",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(description = "Error occurred while making booking", responseCode = "400",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(description = "Unauthorized", responseCode = "401",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @PostMapping("/booking/book")
+    private ResponseEntity<Booking> makeBooking(@RequestBody Booking booking,
+                                                @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        Landlord l = null;
+        token = token.replace("Bearer ", "");
+
+        try {
+
+            l = landlordRepository.findFirstByTokenAndExpTimeIsGreaterThan(token, System.currentTimeMillis());
+
+            if (l != null) {
+                bookingRepository.save(booking);
+                bookingRepository.flush();
+
+                return new ResponseEntity<>(booking, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+
+
+
+
+    @Operation(description = "making a booking")
+    @ApiResponses(value = {
+            @ApiResponse(description = "successfully made booking", responseCode = "200",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(description = "Error occurred while making booking", responseCode = "400",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(description = "Unauthorized", responseCode = "401",
+                    content = @Content(mediaType = "application/json"))
+    })
+
+    @GetMapping("/booking/book/{from}/{to}")
+    private ResponseEntity<Booking> getFreeAirbnbs(@PathVariable("from") LocalDate from,
+                                                   @PathVariable("to") LocalDate to, @RequestBody Booking booking,
+                                                   @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        Landlord l = null;
+        Booking b = null;
+        token = token.replace("Bearer ", "");
+
+        try {
+            l = landlordRepository.findFirstByTokenAndExpTimeIsGreaterThan(token, System.currentTimeMillis());
+
+
+            if (l != null) {
+                bookingRepository.save(booking);
+                bookingRepository.flush();
+
+                return new ResponseEntity<>(booking, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
